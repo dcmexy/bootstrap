@@ -1,75 +1,99 @@
-
 A lightweight pagination directive that is focused on ... providing pagination & will take care of visualising a pagination bar and enable / disable buttons correctly!
 
-### Pagination Settings ###
+### uib-pagination settings
 
-Settings can be provided as attributes in the `<pagination>` or globally configured through the `paginationConfig`.
+* `boundary-links`
+  <small class="badge">C</small>
+  _(Default: `false`)_ -
+  Whether to display First / Last buttons.
 
- * `page` <i class="icon-eye-open"></i>
- 	:
- 	Current page number. First page is 1.
+* `boundary-link-numbers`
+  <small class="badge">$</small>
+  <small class="badge">C</small>
+  _(Default: `false`)_ -
+  Whether to always display the first and last page numbers. If `max-size` is smaller than the number of pages, then the  first and last page numbers are still shown with ellipses in-between as necessary. NOTE: `max-size` refers to the center of the range. This option may add up to 2 more numbers on each side of the displayed range for the end value and what would be an ellipsis but is replaced by a number because it is sequential.
 
- * `total-items` <i class="icon-eye-open"></i>
- 	:
- 	Total number of items in all pages.
+* `direction-links`
+  <small class="badge">$</small>
+  <small class="badge">C</small>
+  _(Default: `true`)_ -
+  Whether to display Previous / Next buttons.
 
- * `items-per-page` <i class="icon-eye-open"></i>
- 	_(Defaults: 10)_ :
- 	Maximum number of items per page. A value less than one indicates all items on one page.
+* `first-text`
+  <small class="badge">C</small>
+  _(Default: `First`)_ -
+  Text for First button.
 
- * `max-size` <i class="icon-eye-open"></i>
- 	_(Defaults: null)_ :
- 	Limit number for pagination size.
+* `force-ellipses`
+  <small class="badge">$</small>
+  <small class="badge">C</small>
+  _(Default: `false`)_ -
+  Also displays ellipses when `rotate` is true and `max-size` is smaller than the number of pages.
 
- * `num-pages` <small class="badge">readonly</small>
- 	_(Defaults: angular.noop)_ :
- 	An optional expression assigned the total number of pages to display.
+* `items-per-page`
+  <small class="badge">$</small>
+  <small class="badge">C</small>
+  <i class="glyphicon glyphicon-eye-open"></i>
+  _(Default: `10`)_ -
+  Maximum number of items per page. A value less than one indicates all items on one page.
 
- * `rotate`
- 	_(Defaults: true)_ :
- 	Whether to keep current page in the middle of the visible ones.
+* `last-text`
+  <small class="badge">C</small>
+  _(Default: `Last`)_ -
+  Text for Last button.
 
- * `on-select-page (page)`
- 	_(Default: null)_ :
- 	An optional expression called when a page is selected having the page number as argument.
+* `max-size`
+  <small class="badge">$</small>
+  <i class="glyphicon glyphicon-eye-open"></i>
+  _(Default: `null`)_ -
+  Limit number for pagination size.
 
- * `direction-links`
- 	_(Default: true)_ :
- 	Whether to display Previous / Next buttons.
+* `next-text`
+  <small class="badge">C</small>
+  _(Default: `Next`)_ -
+  Text for Next button.
 
- * `previous-text`
- 	_(Default: 'Previous')_ :
- 	Text for Previous button.
+* `ng-change`
+  <small class="badge">$</small> -
+  This can be used to call a function whenever the page changes.
 
- * `next-text`
- 	_(Default: 'Next')_ :
- 	Text for Next button.
+* `ng-disabled`
+  <small class="badge">$</small>
+  <i class="glyphicon glyphicon-eye-open"></i>
+  _(Default: `false`)_ -
+  Used to disable the pagination component.
 
- * `boundary-links`
- 	_(Default: false)_ :
- 	Whether to display First / Last buttons.
+* `ng-model`
+  <small class="badge">$</small>
+  <i class="glyphicon glyphicon-eye-open"></i> -
+  Current page number. First page is 1.
 
- * `first-text`
- 	_(Default: 'First')_ :
- 	Text for First button.
+* `num-pages`
+  <small class="badge">$</small>
+  <small class="badge">readonly</small>
+  _(Default: `angular.noop`)_ -
+  An optional expression assigned the total number of pages to display.
 
- * `last-text`
- 	_(Default: 'Last')_ :
- 	Text for Last button.
+* `page-label`
+  _(Default: `angular.identity`)_ -
+  An optional expression to override the page label based on passing the current page indexes. Supports page number with `$page` in the template.
 
-### Pager Settings ###
+* `previous-text`
+  <small class="badge">C</small>
+  _(Default: `Previous`)_ -
+  Text for Previous button.
 
-Settings can be provided as attributes in the `<pager>` or globally configured through the `pagerConfig`.  
-For `page`, `total-items`, `items-per-page`, `num-pages` and `on-select-page (page)` see pagination settings. Other settings are:
+* `rotate`
+  <small class="badge">$</small>
+  <small class="badge">C</small>
+  _(Default: `true`)_ -
+  Whether to keep current page in the middle of the visible ones.
 
- * `align`
- 	_(Default: true)_ :
- 	Whether to align each link to the sides.
+* `template-url`
+  _(Default: `uib/template/pagination/pagination.html`)_ -
+  Override the template for the component with a custom provided template
 
- * `previous-text`
- 	_(Default: '« Previous')_ :
- 	Text for Previous button.
-
- * `next-text`
- 	_(Default: 'Next »')_ :
- 	Text for Next button.
+* `total-items`
+  <small class="badge">$</small>
+  <i class="glyphicon glyphicon-eye-open"></i> -
+  Total number of items in all pages.

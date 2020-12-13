@@ -1,54 +1,122 @@
 A lightweight, extensible directive for fancy tooltip creation. The tooltip
 directive supports multiple placements, optional transition animation, and more.
 
-There are two versions of the tooltip: `tooltip` and `tooltip-html-unsafe`. The
-former takes text only and will escape any HTML provided. The latter takes
-whatever HTML is provided and displays it in a tooltip; it called "unsafe"
-because the HTML is not sanitized. *The user is responsible for ensuring the
-content is safe to put into the DOM!*
+__Note to mobile developers__:  Please note that while tooltips may work correctly on mobile devices (including tablets),
+  we have made the decision to not officially support such a use-case because it does not make sense from a UX perspective.
 
-The tooltip directives provide several optional attributes to control how they
-will display:
+There are three versions of the tooltip: `uib-tooltip`, `uib-tooltip-template`, and
+`uib-tooltip-html`:
 
-- `tooltip-placement`: Where to place it? Defaults to "top", but also accepts
-  "bottom", "left", "right".
-- `tooltip-animation`: Should it fade in and out? Defaults to "true".
-- `tooltip-popup-delay`: For how long should the user have to have the mouse
-  over the element before the tooltip shows (in milliseconds)? Defaults to 0.
-- `tooltip-trigger`: What should trigger a show of the tooltip?
-- `tooltip-append-to-body`: Should the tooltip be appended to `$body` instead of
-  the parent element?
+* `uib-tooltip` -
+  Takes text only and will escape any HTML provided.
+* `uib-tooltip-html`
+  <small class="badge">$</small> -
+  Takes an expression that evaluates to an HTML string. Note that this HTML is not compiled. If compilation is required, please use the `uib-tooltip-template` attribute option instead. *The user is responsible for ensuring the content is safe to put into the DOM!*
+* `uib-tooltip-template`
+  <small class="badge">$</small> -
+  Takes text that specifies the location of a template to use for the tooltip. Note that this needs to be wrapped in a tag.
 
-The tooltip directives require the `$position` service.
+### uib-tooltip-* settings
 
-**Triggers**
+All these settings are available for the three types of tooltips.
 
-The following show triggers are supported out of the box, along with their
-provided hide triggers:
+* `tooltip-animation`
+  <small class="badge">$</small>
+  <small class="badge">C</small>
+  _(Default: `true`, Config: `animation`)_ -
+  Should it fade in and out?
+
+* `tooltip-append-to-body`
+  <small class="badge">$</small>
+  <small class="badge">C</small>
+  _(Default: `false`, Config: `appendToBody`)_ -
+  Should the tooltip be appended to '$body' instead of the parent element?
+
+* `tooltip-class` -
+  Custom class to be applied to the tooltip.
+
+* `tooltip-enable`
+  <small class="badge">$</small>
+  _(Default: `true`)_ -
+  Is it enabled? It will enable or disable the configured tooltip-trigger.
+
+* `tooltip-is-open`
+  <i class="glyphicon glyphicon-eye-open"></i>
+  _(Default: `false`)_ -
+  Whether to show the tooltip.
+
+* `tooltip-placement`
+  <small class="badge">C</small>
+  _(Default: `top`, Config: `placement`)_ -
+  Passing in 'auto' separated by a space before the placement will enable auto positioning, e.g: "auto bottom-left". The tooltip will attempt to position where it fits in the closest scrollable ancestor. Accepts:
+
+   * `top` - tooltip on top, horizontally centered on host element.
+   * `top-left` - tooltip on top, left edge aligned with host element left edge.
+   * `top-right` - tooltip on top, right edge aligned with host element right edge.
+   * `bottom` - tooltip on bottom, horizontally centered on host element.
+   * `bottom-left` - tooltip on bottom, left edge aligned with host element left edge.
+   * `bottom-right` - tooltip on bottom, right edge aligned with host element right edge.
+   * `left` - tooltip on left, vertically centered on host element.
+   * `left-top` - tooltip on left, top edge aligned with host element top edge.
+   * `left-bottom` - tooltip on left, bottom edge aligned with host element bottom edge.
+   * `right` - tooltip on right, vertically centered on host element.
+   * `right-top` - tooltip on right, top edge aligned with host element top edge.
+   * `right-bottom` - tooltip on right, bottom edge aligned with host element bottom edge.
+
+* `tooltip-popup-close-delay`
+  <small class="badge">C</small>
+  _(Default: `0`, Config: `popupCloseDelay`)_ -
+  For how long should the tooltip remain open after the close trigger event?
+
+* `tooltip-popup-delay`
+  <small class="badge">C</small>
+  _(Default: `0`, Config: `popupDelay`)_ -
+  Popup delay in milliseconds until it opens.
+
+* `tooltip-trigger`
+  <small class="badge">$</small>
+  _(Default: `'mouseenter'`)_ -
+  What should trigger a show of the tooltip? Supports a space separated list of event names, or objects (see below).
+
+**Note:** To configure the tooltips, you need to do it on `$uibTooltipProvider` (also see below).
+
+### Triggers
+
+The following show triggers are supported out of the box, along with their provided hide triggers:
 
 - `mouseenter`: `mouseleave`
 - `click`: `click`
+- `outsideClick`: `outsideClick`
 - `focus`: `blur`
+- `none`
+
+The `outsideClick` trigger will cause the tooltip to toggle on click, and hide when anything else is clicked.
 
 For any non-supported value, the trigger will be used to both show and hide the
-tooltip.
+tooltip. Using the 'none' trigger will disable the internal trigger(s), one can
+then use the `tooltip-is-open` attribute exclusively to show and hide the tooltip.
 
-**$tooltipProvider**
+### $uibTooltipProvider
 
-Through the `$tooltipProvider`, you can change the way tooltips and popovers
+Through the `$uibTooltipProvider`, you can change the way tooltips and popovers
 behave by default; the attributes above always take precedence. The following
 methods are available:
 
-- `setTriggers( obj )`: Extends the default trigger mappings mentioned above
-  with mappings of your own. E.g. `{ 'openTrigger': 'closeTrigger' }`.
-- `options( obj )`: Provide a set of defaults for certain tooltip and popover
-  attributes. Currently supports 'placement', 'animation', 'popupDelay', and
-  `appendToBody`. Here are the defaults:
+* `setTriggers(obj)`
+  _(Example: `{ 'openTrigger': 'closeTrigger' }`)_ -
+  Extends the default trigger mappings mentioned above with mappings of your own.
 
-  <pre>
-  placement: 'top',
-  animation: true,
-  popupDelay: 0,
-  appendToBody: false
-  </pre>
+* `options(obj)` -
+  Provide a set of defaults for certain tooltip and popover attributes. Currently supports the ones with the <small class="badge">C</small> badge.
 
+### Known issues
+
+For Safari 7+ support, if you want to use the **focus** `tooltip-trigger`, you need to use an anchor tag with a tab index. For example:
+
+```
+<a tabindex="0" uib-tooltip="Test" tooltip-trigger="focus" class="btn btn-default">
+  Click Me
+</a>
+```
+
+For Safari (potentially all versions up to 9), there is an issue with the hover CSS selector when using multiple elements grouped close to each other that are using the tooltip - it is possible for multiple elements to gain the hover state when mousing between the elements quickly and exiting the container at the right time. See [issue #5445](https://github.com/angular-ui/bootstrap/issues/5445) for more details.
